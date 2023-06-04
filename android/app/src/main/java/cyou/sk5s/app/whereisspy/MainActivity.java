@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package cyou.sk5s.app.whereisspy;
 
 import com.getcapacitor.BridgeActivity;
 
