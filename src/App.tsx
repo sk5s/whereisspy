@@ -21,22 +21,49 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import { useState } from 'react';
+import { SettingsContext } from './SettingsContext';
+import MainGame from './pages/MainGame';
+import QuestionCreator from './pages/Develop/QuestionCreator';
 
 setupIonicReact();
 
-const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonRouterOutlet>
-        <Route exact path="/home">
-          <Home />
-        </Route>
-        <Route exact path="/">
-          <Redirect to="/home" />
-        </Route>
-      </IonRouterOutlet>
-    </IonReactRouter>
-  </IonApp>
-);
+function App() {
+  const [settings, setSettings] = useState<any>({
+    playernum: 4,
+    spynum: 1,
+    blanknum: 0,
+    question: {
+      id: 0,
+      word: []
+    },
+    players: [],
+    playersAndQuestion: [],
+    playersAndAdditional: [],
+    playersAndState: []
+  })
+  return (
+    <IonApp>
+      <IonReactRouter>
+        <SettingsContext.Provider value={{settings,setSettings}}>
+          <IonRouterOutlet>
+            <Route exact path="/home">
+              <Home />
+            </Route>
+            <Route exact path="/game">
+              <MainGame />
+            </Route>
+            <Route exact path="/edit">
+              <QuestionCreator />
+            </Route>
+            <Route exact path="/">
+              <Redirect to="/home" />
+            </Route>
+          </IonRouterOutlet>
+        </SettingsContext.Provider>
+      </IonReactRouter>
+    </IonApp>
+  );
+}
 
 export default App;
