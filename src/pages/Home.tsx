@@ -85,7 +85,7 @@ function Home() {
   const HowToPlay = () => {
     return (
       <>
-        <IonButton expand='full' onClick={() => setHowToPlayModal(true)}>遊戲規則</IonButton>
+        <IonButton fill='outline' expand='full' onClick={() => setHowToPlayModal(true)}>遊戲規則</IonButton>
         <IonModal isOpen={howToPlayModal} onDidDismiss={() => setHowToPlayModal(false)}>
           <IonHeader>
             <IonToolbar>
@@ -131,9 +131,10 @@ function Home() {
         <PlayerNumberInput />
         <SpyNumberInput />
         <BlankNumberInput />
-        <GoButton />
-        <HowToPlay />
       </IonList>
+      <GoButton />
+      <HowToPlay />
+      <IonButton expand='full' fill='outline' href='https://s.sk5s.cyou/wis' target='_blank' rel='noopener noreferer'>幫忙加大題庫</IonButton>
     </GeneralPage>
   );
 }
