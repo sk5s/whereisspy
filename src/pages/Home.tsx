@@ -1,5 +1,4 @@
 import { IonButton, IonButtons, IonContent, IonHeader, IonInput, IonItem, IonList, IonModal, IonPopover, IonTitle, IonToolbar, useIonModal } from '@ionic/react';
-import './Home.css';
 import GeneralPage from './Layout/GeneralPage';
 import { useContext, useEffect, useState } from 'react';
 import { SettingsContext } from '../SettingsContext';
@@ -36,14 +35,12 @@ function Home() {
     return (
       <IonItem>
         <IonInput onIonChange={(e) => {
-          if (e.detail.value === ""){
-            changeNum("playernum",e.detail.value)
-          } else if (parseInt(e.detail.value) <= 16 && parseInt(e.detail.value) >= 4){
+          if (parseInt(e.detail.value) <= 16 && parseInt(e.detail.value) >= 4){
             changeNum("playernum",e.detail.value)
           } else {
             changeNum("playernum","4")
           }
-        }} label="玩家人數" type="number" placeholder="輸入玩家人數" min={4} max={16} value={settings.playernum}></IonInput>
+        }} label="玩家人數（4~16）" type="number" placeholder="輸入玩家人數" min={4} max={16} value={settings.playernum}></IonInput>
       </IonItem>
     )
   }
@@ -51,9 +48,7 @@ function Home() {
     return (
       <IonItem>
         <IonInput onIonChange={(e) => {
-          if (e.detail.value === ""){
-            changeNum("spynum",e.detail.value)
-          } else if (parseInt(e.detail.value) <= maxSpy && parseInt(e.detail.value) >= 1){
+          if (parseInt(e.detail.value) <= maxSpy && parseInt(e.detail.value) >= 1){
             changeNum("spynum",e.detail.value)
           } else {
             changeNum("spynum","1")
@@ -66,9 +61,7 @@ function Home() {
     return (
       <IonItem>
         <IonInput onIonChange={(e) => {
-          if (e.detail.value === ""){
-            changeNum("blanknum",e.detail.value)
-          } else if (parseInt(e.detail.value) <= (settings.playernum - settings.spynum) && parseInt(e.detail.value) >= 0){
+          if (parseInt(e.detail.value) <= (settings.playernum - settings.spynum) && parseInt(e.detail.value) >= 0){
             changeNum("blanknum",e.detail.value)
           } else {
             changeNum("blanknum","0")

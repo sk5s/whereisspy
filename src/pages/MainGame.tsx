@@ -15,6 +15,11 @@ export default function MainGame() {
   const [startFrom, setStartFrom] = useState(0)
   const [presentAlert] = useIonAlert();
   const [presentToast] = useIonToast();
+
+  const [presentToast1] = useIonToast();
+  const [presentToast2] = useIonToast();
+  const [presentToast3] = useIonToast();
+
   const changeQuestion = (type,value) => {
     setSettings((o) => {
       let n = {...o}
@@ -58,13 +63,46 @@ export default function MainGame() {
             changeQuestion("playersAndState", newstate)
             switch (element) {
               case -1:
-                console.log("殺到臥底")
+                presentToast1({
+                  message: "殺到臥底",
+                  position: "bottom",
+                  duration: 2500,
+                  color: "danger",
+                  buttons: [
+                    {
+                      text: '關閉',
+                      role: 'cancel'
+                    },
+                  ]
+                })
                 break;
               case 1:
-                console.log("殺到平民")
+                presentToast2({
+                  message: "殺到平民",
+                  position: "bottom",
+                  duration: 2500,
+                  color: "success",
+                  buttons: [
+                    {
+                      text: '關閉',
+                      role: 'cancel'
+                    },
+                  ]
+                })
                 break;
               default:
-                console.log("殺到白板")
+                presentToast3({
+                  message: "殺到白板",
+                  position: "bottom",
+                  duration: 2500,
+                  color: "light",
+                  buttons: [
+                    {
+                      text: '關閉',
+                      role: 'cancel'
+                    },
+                  ]
+                })
                 break;
             }
           },
@@ -80,15 +118,14 @@ export default function MainGame() {
     let chosenQuestionCopy = {...chosenQuestion}
     shuffleArray(chosenQuestion.word)
     changeQuestion("question",chosenQuestion)
-    let playersAndAdditional = []
-    if (chosenQuestionCopy.word[0] === chosenQuestion.word[0]){
-      playersAndAdditional.push(chosenQuestionCopy[0])
-      playersAndAdditional.push(chosenQuestionCopy[1])
-    } else {
-      playersAndAdditional.push(chosenQuestionCopy[1])
-      playersAndAdditional.push(chosenQuestionCopy[0])
+    let changedAdditional = ["",""]
+    if (chosenQuestionCopy.word[0] === chosenQuestion.word[0] && chosenQuestionCopy.additional !== undefined){
+      changedAdditional.push(chosenQuestionCopy.additional[0])
+      changedAdditional.push(chosenQuestionCopy.additional[1])
+    } else if (chosenQuestionCopy.additional !== undefined) {
+      changedAdditional.push(chosenQuestionCopy.additional[1])
+      changedAdditional.push(chosenQuestionCopy.additional[0])
     }
-    changeQuestion("playersAndAdditional",playersAndAdditional)
     let players = []
     for (let p = 0; p < settings.blanknum; p++) {
       players.push(0)
@@ -105,22 +142,28 @@ export default function MainGame() {
     changeQuestion("players",players)
     let playersAndQuestion = []
     let playersAndState = []
+    let playersAndAdditional = []
     players.forEach((e,i) => {
       playersAndState.push(0)
       switch (e) {
         case 1:
           playersAndQuestion.push(chosenQuestion.word[0])
+          playersAndAdditional.push(changedAdditional[0])
           break;
         case -1:
           playersAndQuestion.push(chosenQuestion.word[1])
+          playersAndAdditional.push(changedAdditional[1])
           break;
         default:
           playersAndQuestion.push("白板")
+          playersAndAdditional.push("")
           break;
       }
     })
     changeQuestion("playersAndQuestion",playersAndQuestion)
     changeQuestion("playersAndState",playersAndState)
+    changeQuestion("playersAndAdditional",playersAndAdditional)
+    console.log(playersAndAdditional)
     setTitle("看題目：玩家"+(view+1))
     console.log()
     let randomPlayerNumber = Math.floor(Math.random()*players.length)
@@ -129,6 +172,24 @@ export default function MainGame() {
     }
     setStartFrom(randomPlayerNumber)
     setView(0)
+  }
+  const viewAnswer = () => {
+    presentAlert({
+      header: '結束並看答案',
+      buttons: [
+        {
+          text: '取消',
+          role: 'cancel'
+        },
+        {
+          text: '確定',
+          role: 'confirm',
+          handler: () => {
+            setView(-2)
+          },
+        },
+      ]
+    })
   }
   useEffect(() => {
     if (view <= -1){
@@ -161,13 +222,14 @@ export default function MainGame() {
     <GeneralPage title={title}>
       {
         view <= -1 ?
+        <>
+        點擊玩家來投票
         <IonList>
         {(() => {
           let rows = []
           if (settings.players.length === 0) {
             rows = []
           } else {
-            // console.log(settings.players)
             settings.players.forEach((element,i) => {
               rows.push(
                 <IonItem key={`${settings.playernum} ${i}`} onClick={() => handleVote(i)} disabled={settings.playersAndState[i]}>
@@ -205,12 +267,13 @@ export default function MainGame() {
             :<>
               {
                 settings.playersAndState.reduce((partialSum, a) => partialSum + a, 0) <1 ?<></>
-                :<IonButton expand='full' onClick={() => setView(-2)}>結束 看答案</IonButton>
+                :<IonButton expand='full' onClick={() => viewAnswer()}>結束 看答案</IonButton>
               }
             </>
           }
           
         </IonList>
+        </>
         :<ViewQuestionCenter text={settings.playersAndQuestion[view]} additional={settings.playersAndAdditional[view]} next={nextPlayer} />
       }
 

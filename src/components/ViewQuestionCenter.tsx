@@ -5,6 +5,7 @@ function ViewQuestionCenter({text,next,additional}) {
   const [reveal,setReveal] = useState(false)
   const handleClick = (e) => {
     // console.log(e)
+    console.log(additional)
     if (reveal) {
       next()
       setReveal(false)
@@ -19,7 +20,7 @@ function ViewQuestionCenter({text,next,additional}) {
         <>
           <h1>{text}</h1>
           {
-            additional ? <>{additional}</>:<>快速點兩下隱藏題目，並傳給下一位玩家</>
+            additional !== "" ? <>{additional}</>:<>快速點兩下隱藏題目，並傳給下一位玩家</>
           }
         </>
         :<>快速點兩下來看題目</>
