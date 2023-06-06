@@ -51,7 +51,10 @@ function App() {
               <Home />
             </Route>
             <Route exact path="/game">
-              <MainGame />
+              <MainGame type='general' />
+            </Route>
+            <Route exact path="/custom">
+              <MainGame type="custom" />
             </Route>
             <Route exact path="/edit">
               <QuestionCreator />

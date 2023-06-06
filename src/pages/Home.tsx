@@ -1,17 +1,20 @@
-import { IonButton, IonButtons, IonContent, IonHeader, IonInput, IonItem, IonList, IonModal, IonPopover, IonTitle, IonToolbar, useIonModal } from '@ionic/react';
+import { IonButton, IonButtons, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonList, IonModal, IonPopover, IonRow, IonTitle, IonToolbar, useIonModal } from '@ionic/react';
 import GeneralPage from './Layout/GeneralPage';
 import { useContext, useEffect, useState } from 'react';
 import { SettingsContext } from '../SettingsContext';
 import { useHistory } from 'react-router';
+import { addSharp, removeSharp } from 'ionicons/icons';
 
 function Home() {
   const {settings, setSettings} = useContext(SettingsContext)
   const [maxSpy, setMaxSpy] = useState(1)
+  const [maxBlank,setMaxBlank] = useState(0)
   const [howToPlayModal,setHowToPlayModal] = useState(false)
   const history = useHistory()
   const calculateMaxSpy = () => {
     let num = 0
     let cal = settings.playernum
+    if (cal === "") return
     if (cal % 2 === 0) {
       cal -= 1
     }
@@ -21,6 +24,11 @@ function Home() {
     if (settings.spynum > num) {
       changeNum("spynum",num)
     }
+  }
+  const calculateMaxBlank = () => {
+    if (settings.playernum === "") return
+    setMaxBlank(settings.playernum - settings.spynum)
+    if (settings.blanknum > settings.playernum - settings.spynum) changeNum("blanknum",settings.playernum - settings.spynum)
   }
   const changeNum = (type,value) => {
     let myvalue:any = parseInt(value)
@@ -34,39 +42,75 @@ function Home() {
   const PlayerNumberInput = () => {
     return (
       <IonItem>
-        <IonInput onIonChange={(e) => {
-          if (parseInt(e.detail.value) <= 16 && parseInt(e.detail.value) >= 4){
+        <IonInput onIonInput={(e) => {
+          if (parseInt(e.detail.value) <= 16 && parseInt(e.detail.value) >= 4 || e.detail.value === ""){
             changeNum("playernum",e.detail.value)
           } else {
             changeNum("playernum","4")
           }
-        }} label="玩家人數（4~16）" type="number" placeholder="輸入玩家人數" min={4} max={16} value={settings.playernum}></IonInput>
+        }} label="玩家人數" type="number" placeholder="輸入玩家人數" min={4} max={16} value={settings.playernum}></IonInput>
+        <IonButton onClick={() => {
+          if (settings.playernum <= 4) return
+          changeNum("playernum",settings.playernum -= 1)
+        }} disabled={settings.playernum === 4} size='small' shape='round'>
+          <IonIcon slot="icon-only" icon={removeSharp}></IonIcon>
+        </IonButton>
+        <IonButton onClick={() => {
+          if (settings.playernum >= 16) return
+          changeNum("playernum",settings.playernum += 1)
+        }} disabled={settings.playernum === 16} size='small' shape='round'>
+          <IonIcon slot="icon-only" icon={addSharp}></IonIcon>
+        </IonButton>
       </IonItem>
     )
   }
   const SpyNumberInput = () => {
     return (
       <IonItem>
-        <IonInput onIonChange={(e) => {
-          if (parseInt(e.detail.value) <= maxSpy && parseInt(e.detail.value) >= 1){
+        <IonInput onIonInput={(e) => {
+          if (parseInt(e.detail.value) <= maxSpy && parseInt(e.detail.value) >= 1 || e.detail.value === ""){
             changeNum("spynum",e.detail.value)
           } else {
             changeNum("spynum","1")
           }
         }} label="臥底人數" type="number" placeholder="輸入臥底人數" min={1} max={maxSpy} value={settings.spynum}></IonInput>
+        <IonButton onClick={() => {
+          if (settings.spynum <= 1) return
+          changeNum("spynum",settings.spynum -= 1)
+        }} disabled={settings.spynum === 1} size='small' shape='round'>
+          <IonIcon slot="icon-only" icon={removeSharp}></IonIcon>
+        </IonButton>
+        <IonButton onClick={() => {
+          if (settings.spynum >= maxSpy) return
+          changeNum("spynum",settings.spynum += 1)
+        }} disabled={settings.spynum === maxSpy} size='small' shape='round'>
+          <IonIcon slot="icon-only" icon={addSharp}></IonIcon>
+        </IonButton>
       </IonItem>
     )
   }
   const BlankNumberInput = () => {
     return (
       <IonItem>
-        <IonInput onIonChange={(e) => {
-          if (parseInt(e.detail.value) <= (settings.playernum - settings.spynum) && parseInt(e.detail.value) >= 0){
+        <IonInput onIonInput={(e) => {
+          if (parseInt(e.detail.value) <= (settings.playernum - settings.spynum) && parseInt(e.detail.value) >= 0 || e.detail.value === ""){
             changeNum("blanknum",e.detail.value)
           } else {
             changeNum("blanknum","0")
           }
-        }} label="白板人數" type="number" placeholder="輸入白板人數" min={0} max={settings.playernum - settings.spynum} value={settings.blanknum}></IonInput>
+        }} label="白板人數" type="number" placeholder="輸入白板人數" min={0} max={maxBlank} value={settings.blanknum}></IonInput>
+        <IonButton onClick={() => {
+          if (settings.blanknum <= 0) return
+          changeNum("blanknum",settings.blanknum -= 1)
+        }} disabled={settings.blanknum === 0} size='small' shape='round'>
+          <IonIcon slot="icon-only" icon={removeSharp}></IonIcon>
+        </IonButton>
+        <IonButton onClick={() => {
+          if (settings.blanknum >= maxBlank) return
+          changeNum("blanknum",settings.blanknum += 1)
+        }} disabled={settings.blanknum === maxBlank} size='small' shape='round'>
+          <IonIcon slot="icon-only" icon={addSharp}></IonIcon>
+        </IonButton>
       </IonItem>
     )
   }
@@ -85,7 +129,7 @@ function Home() {
   const HowToPlay = () => {
     return (
       <>
-        <IonButton fill='outline' expand='full' onClick={() => setHowToPlayModal(true)}>遊戲規則</IonButton>
+        <IonButton color="light" expand='full' onClick={() => setHowToPlayModal(true)}>遊戲規則</IonButton>
         <IonModal isOpen={howToPlayModal} onDidDismiss={() => setHowToPlayModal(false)}>
           <IonHeader>
             <IonToolbar>
@@ -104,11 +148,11 @@ function Home() {
   }
   useEffect(() => {
     calculateMaxSpy()
-    if (settings.blanknum > settings.playernum - settings.spynum) changeNum("blanknum",settings.playernum - settings.spynum)
+    calculateMaxBlank()
   },[settings.playernum])
-  const GoButton = () => {
+  const GoButton = ({type}) => {
     return (
-      <IonButton expand='full' onClick={
+      <IonButton expand='full' color={type === "custom" ? "light" : "primary"} onClick={
         () => {
           console.log(settings)
           if (settings.playernum === "" || settings.playernum > 16 || settings.playernum < 4){
@@ -120,9 +164,13 @@ function Home() {
           if (settings.blanknum === "" || settings.blanknum > (settings.playernum - settings.spynum) || settings.blanknum < 0){
             changeNum("blanknum","0")
           }
-          history.push("/game")
+          if (type === "custom"){
+            history.push("/custom")
+          } else {
+            history.push("/game")
+          }
         }
-      }>開始遊戲</IonButton>
+      }>{type === "custom" ? <>自訂題目開始</> : <>開始遊戲</>}</IonButton>
     )
   }
   return (
@@ -132,9 +180,20 @@ function Home() {
         <SpyNumberInput />
         <BlankNumberInput />
       </IonList>
-      <GoButton />
-      <HowToPlay />
-      <IonButton expand='full' fill='outline' href='https://s.sk5s.cyou/wis' target='_blank' rel='noopener noreferer'>幫忙加大題庫</IonButton>
+      <IonGrid>
+        <IonRow>
+          <IonCol><GoButton type="normal" /></IonCol>
+        </IonRow>
+        <IonRow>
+          <IonCol><GoButton type="custom" /></IonCol>
+        </IonRow>
+        <IonRow>
+          <IonCol><HowToPlay /></IonCol>
+        </IonRow>
+        <IonRow>
+          <IonCol><IonButton expand='full' color="light" href='https://s.sk5s.cyou/wis' target='_blank' rel='noopener noreferer'>幫忙加大題庫</IonButton></IonCol>
+        </IonRow>
+      </IonGrid>
     </GeneralPage>
   );
 }

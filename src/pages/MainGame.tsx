@@ -6,7 +6,11 @@ import { IonBadge, IonButton, IonCard, IonCardSubtitle, IonCardTitle, IonCol, Io
 import ViewQuestionCenter from "../components/ViewQuestionCenter";
 import { useHistory, useLocation } from "react-router";
 
-export default function MainGame() {
+export default function MainGame({
+  type
+}:{
+  type?: string;
+}) {
   const history = useHistory()
   const location = useLocation();
   const [title, setTitle] = useState("")
@@ -114,7 +118,21 @@ export default function MainGame() {
     // 決定題目
     let allQuestion = question()
     let chosenQuestion = allQuestion[Math.floor(Math.random()*allQuestion.length)]
-    // console.log(chosenQuestion)
+    if (type === "custom" && location.pathname === "/custom"){
+      let word1
+      let word2
+      word1 = prompt("輸入字詞1")
+      word2 = prompt("輸入字詞2")
+      if (word1 === "" || word1 === null || word2 === "" || word2 === null){
+        word1 = "字詞1"
+        word2 = "字詞2"
+      }
+      chosenQuestion = {
+        id: "customQuestion",
+        word: [word1,word2]
+      }
+    }
+    console.log("choosenQuestion: ",chosenQuestion)
     let chosenQuestionCopy = {...chosenQuestion}
     shuffleArray(chosenQuestion.word)
     changeQuestion("question",chosenQuestion)
@@ -126,7 +144,7 @@ export default function MainGame() {
       changedAdditional[1] = chosenQuestionCopy.additional[1]
       changedAdditional[0] = chosenQuestionCopy.additional[0]
     }
-    console.log(changedAdditional)
+    // console.log(changedAdditional)
     let players = []
     for (let p = 0; p < settings.blanknum; p++) {
       players.push(0)
@@ -134,12 +152,12 @@ export default function MainGame() {
     for (let p = 0; p < settings.spynum; p++) {
       players.push(-1)
     }
-    console.log(settings.playernum)
+    console.log("players: "+settings.playernum)
     for (let p = 0; p < settings.playernum - (settings.blanknum+settings.spynum); p++) {
       players.push(1)
     }
     shuffleArray(players)
-    console.log(players)
+    // console.log(players)
     changeQuestion("players",players)
     let playersAndQuestion = []
     let playersAndState = []
@@ -164,7 +182,7 @@ export default function MainGame() {
     changeQuestion("playersAndQuestion",playersAndQuestion)
     changeQuestion("playersAndState",playersAndState)
     changeQuestion("playersAndAdditional",playersAndAdditional)
-    console.log(playersAndAdditional)
+    console.log("playersAndAdditional: ",playersAndAdditional)
     setTitle("看題目：玩家"+(view+1))
     let randomPlayerNumber = Math.floor(Math.random()*players.length)
     while(players[randomPlayerNumber] === 0){
@@ -211,11 +229,14 @@ export default function MainGame() {
       setTitle("看題目：玩家"+(view+1))
     }
   },[view])
+  // useEffect(() => {
+  //   startNew()
+  // },[])
   useEffect(() => {
-    startNew()
-  },[])
-  useEffect(() => {
-    startNew()
+    // console.log(location.pathname)
+    if (location.pathname === "/game" || location.pathname === "/custom"){
+      startNew()
+    }
   },[location])
   
   return (
