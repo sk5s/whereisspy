@@ -5,13 +5,14 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "npx ionic build && npx cap copy",
     "preview": "vite preview",
     "test.e2e": "cypress run",
     "test.unit": "vitest",
     "lint": "eslint",
     "android": "ionic cap run android -l --external",
-    "icon": "npx @capacitor/assets generate --iconBackgroundColor '#1D3557'"
+    "icon": "npx @capacitor/assets generate --iconBackgroundColor '#1D3557'",
+    "deploy": "firebase deploy"
   },
   "dependencies": {
     "@capacitor/android": "5.0.4",
