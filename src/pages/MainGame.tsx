@@ -120,12 +120,13 @@ export default function MainGame() {
     changeQuestion("question",chosenQuestion)
     let changedAdditional = ["",""]
     if (chosenQuestionCopy.word[0] === chosenQuestion.word[0] && chosenQuestionCopy.additional !== undefined){
-      changedAdditional.push(chosenQuestionCopy.additional[0])
-      changedAdditional.push(chosenQuestionCopy.additional[1])
+      changedAdditional[0] = chosenQuestionCopy.additional[0]
+      changedAdditional[1] = chosenQuestionCopy.additional[1]
     } else if (chosenQuestionCopy.additional !== undefined) {
-      changedAdditional.push(chosenQuestionCopy.additional[1])
-      changedAdditional.push(chosenQuestionCopy.additional[0])
+      changedAdditional[1] = chosenQuestionCopy.additional[1]
+      changedAdditional[0] = chosenQuestionCopy.additional[0]
     }
+    console.log(changedAdditional)
     let players = []
     for (let p = 0; p < settings.blanknum; p++) {
       players.push(0)
@@ -165,7 +166,6 @@ export default function MainGame() {
     changeQuestion("playersAndAdditional",playersAndAdditional)
     console.log(playersAndAdditional)
     setTitle("看題目：玩家"+(view+1))
-    console.log()
     let randomPlayerNumber = Math.floor(Math.random()*players.length)
     while(players[randomPlayerNumber] === 0){
       randomPlayerNumber = Math.floor(Math.random()*players.length)

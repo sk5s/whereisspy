@@ -6,6 +6,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  user-select: none;
+  cursor: pointer;
 }
 
 .container strong {

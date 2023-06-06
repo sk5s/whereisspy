@@ -59,6 +59,9 @@ function App() {
             <Route exact path="/editDev">
               <QuestionCreator mode='dev' />
             </Route>
+            <Route exact path="/viewAll">
+              <QuestionCreator mode='all' />
+            </Route>
             <Route exact path="/">
               <Redirect to="/home" />
             </Route>
