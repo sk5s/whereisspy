@@ -2,7 +2,7 @@ import { IonButton, IonButtons, IonCol, IonContent, IonGrid, IonHeader, IonIcon,
 import GeneralPage from './Layout/GeneralPage';
 import { useContext, useEffect, useState } from 'react';
 import { SettingsContext } from '../SettingsContext';
-import { useHistory } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
 import { addSharp, removeSharp } from 'ionicons/icons';
 
 function Home() {
