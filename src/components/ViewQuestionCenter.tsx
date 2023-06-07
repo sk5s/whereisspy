@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import './ViewQuestionCenter.css';
 import { useLocation } from 'react-router';
+import { IonRippleEffect } from '@ionic/react';
 
 function ViewQuestionCenter({text,next,additional}) {
   const [reveal,setReveal] = useState(false)
@@ -19,7 +20,7 @@ function ViewQuestionCenter({text,next,additional}) {
     setReveal(false)
   },[location])
   return (
-    <div className="container" onDoubleClick={handleClick}>
+    <div className="qcontainer ion-activatable ripple-parent" onDoubleClick={handleClick}>
       {
         reveal ?
         <>
@@ -30,6 +31,7 @@ function ViewQuestionCenter({text,next,additional}) {
         </>
         :<>快速點兩下來看題目</>
       }
+      <IonRippleEffect className='customripple'></IonRippleEffect>
     </div>
   );
 }
