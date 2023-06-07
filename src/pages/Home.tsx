@@ -174,7 +174,7 @@ function Home() {
     )
   }
   return (
-    <GeneralPage title="找出臥底">
+    <GeneralPage title="找出臥底" home={false}>
       <IonList>
         <PlayerNumberInput />
         <SpyNumberInput />

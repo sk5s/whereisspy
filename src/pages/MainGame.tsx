@@ -240,7 +240,7 @@ export default function MainGame({
   },[location])
   
   return (
-    <GeneralPage title={title}>
+    <GeneralPage title={title} home={true}>
       {
         view <= -1 ?
         <>
