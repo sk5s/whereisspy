@@ -1,6 +1,7 @@
-import { Redirect, Route } from 'react-router-dom';
+import { Redirect, Route, useHistory, useLocation } from 'react-router-dom';
 import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
+import { App as NativeApp } from '@capacitor/app';
 import Home from './pages/Home';
 
 /* Core CSS required for Ionic components to work properly */
@@ -29,6 +30,8 @@ import QuestionCreator from './pages/Develop/QuestionCreator';
 setupIonicReact();
 
 function App() {
+  const location = useLocation()
+  const history = useHistory();
   const [settings, setSettings] = useState<any>({
     playernum: 4,
     spynum: 1,
@@ -41,6 +44,12 @@ function App() {
     playersAndQuestion: [],
     playersAndAdditional: [],
     playersAndState: []
+  })
+
+  NativeApp.addListener("backButton",({ canGoBack }) => {
+    if (canGoBack && location.hash !== "/game" && location.hash !== "/custom"){
+      history.goBack()
+    }
   })
   return (
     <IonApp>
