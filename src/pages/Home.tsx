@@ -42,19 +42,21 @@ function Home() {
   const PlayerNumberInput = () => {
     return (
       <IonItem>
-        <IonInput onIonInput={(e) => {
+        {/* <IonInput onIonInput={(e) => {
           if (parseInt(e.detail.value) <= 16 && parseInt(e.detail.value) >= 4 || e.detail.value === ""){
             changeNum("playernum",e.detail.value)
           } else {
             changeNum("playernum","4")
           }
-        }} label="玩家人數" type="number" placeholder="輸入玩家人數" min={4} max={16} value={settings.playernum}></IonInput>
+        }} label="玩家人數" type="number" placeholder="輸入玩家人數" min={4} max={16} value={settings.playernum}></IonInput> */}
+        <span style={{marginRight:"15px"}}>玩家人數</span>{" "}
         <IonButton onClick={() => {
           if (settings.playernum <= 4) return
           changeNum("playernum",settings.playernum -= 1)
         }} disabled={settings.playernum === 4} size='small' shape='round'>
           <IonIcon slot="icon-only" icon={removeSharp}></IonIcon>
         </IonButton>
+        <span>{settings.playernum}</span>
         <IonButton onClick={() => {
           if (settings.playernum >= 16) return
           changeNum("playernum",settings.playernum += 1)
@@ -67,19 +69,21 @@ function Home() {
   const SpyNumberInput = () => {
     return (
       <IonItem>
-        <IonInput onIonInput={(e) => {
+        {/* <IonInput onIonInput={(e) => {
           if (parseInt(e.detail.value) <= maxSpy && parseInt(e.detail.value) >= 1 || e.detail.value === ""){
             changeNum("spynum",e.detail.value)
           } else {
             changeNum("spynum","1")
           }
-        }} label="臥底人數" type="number" placeholder="輸入臥底人數" min={1} max={maxSpy} value={settings.spynum}></IonInput>
+        }} label="臥底人數" type="number" placeholder="輸入臥底人數" min={1} max={maxSpy} value={settings.spynum}></IonInput> */}
+        <span style={{marginRight:"15px"}}>臥底人數</span>{" "}
         <IonButton onClick={() => {
           if (settings.spynum <= 1) return
           changeNum("spynum",settings.spynum -= 1)
         }} disabled={settings.spynum === 1} size='small' shape='round'>
           <IonIcon slot="icon-only" icon={removeSharp}></IonIcon>
         </IonButton>
+        <span>{settings.spynum}</span>
         <IonButton onClick={() => {
           if (settings.spynum >= maxSpy) return
           changeNum("spynum",settings.spynum += 1)
@@ -92,19 +96,21 @@ function Home() {
   const BlankNumberInput = () => {
     return (
       <IonItem>
-        <IonInput onIonInput={(e) => {
+        {/* <IonInput onIonInput={(e) => {
           if (parseInt(e.detail.value) <= (settings.playernum - settings.spynum) && parseInt(e.detail.value) >= 0 || e.detail.value === ""){
             changeNum("blanknum",e.detail.value)
           } else {
             changeNum("blanknum","0")
           }
-        }} label="白板人數" type="number" placeholder="輸入白板人數" min={0} max={maxBlank} value={settings.blanknum}></IonInput>
+        }} label="白板人數" type="number" placeholder="輸入白板人數" min={0} max={maxBlank} value={settings.blanknum}></IonInput> */}
+        <span style={{marginRight:"15px"}}>白板人數</span>
         <IonButton onClick={() => {
           if (settings.blanknum <= 0) return
           changeNum("blanknum",settings.blanknum -= 1)
         }} disabled={settings.blanknum === 0} size='small' shape='round'>
           <IonIcon slot="icon-only" icon={removeSharp}></IonIcon>
         </IonButton>
+        <span>{settings.blanknum}</span>
         <IonButton onClick={() => {
           if (settings.blanknum >= maxBlank) return
           changeNum("blanknum",settings.blanknum += 1)
