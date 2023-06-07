@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './ViewQuestionCenter.css';
+import { useLocation } from 'react-router';
 
 function ViewQuestionCenter({text,next,additional}) {
   const [reveal,setReveal] = useState(false)
+  const location = useLocation();
   const handleClick = (e) => {
     // console.log(e)
     console.log(additional)
@@ -13,6 +15,9 @@ function ViewQuestionCenter({text,next,additional}) {
       setReveal(true)
     }
   }
+  useEffect(() => {
+    setReveal(false)
+  },[location])
   return (
     <div className="container" onDoubleClick={handleClick}>
       {
