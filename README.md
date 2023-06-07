@@ -126,7 +126,7 @@ Project Link: [https://github.com/sk5s/whereisspy](https://github.com/sk5s/where
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
-[![opensource](https://forthebadge.com/images/badges/open-source.svg)](https://sk5s.cyou/)
+[![opensource](https://forthebadge.com/images/badges/open-source.svg)](https://games.sk5s.cyou/)
 
 ```
      _    ____                        _           _
