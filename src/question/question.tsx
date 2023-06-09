@@ -13,11 +13,12 @@ const questions02:Questions[] =
 [{"id":"1686062161839","word":["臉頰","屁股"]},{"id":"1686062161840","word":["香水","尿"]},{"id":"1686062161841","word":["東京","京都"]}]
 
 // By sk5s
-// const questions03:Questions[] = 
+const questions03:Questions[] = 
 // [{"id":"1686061485290","word":["龜毛","羽毛"]}]
+[{"id":"1686351853624","word":["字詞1","字詞2"],"additional":["1","2"]}]
 
 export default function question(){
-  return [...questions01,...questions02]
+  return [...questions03]
 }
 export function partialquestion(){
   return questions02

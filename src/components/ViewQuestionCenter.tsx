@@ -8,7 +8,7 @@ function ViewQuestionCenter({text,next,additional}) {
   const location = useLocation();
   const handleClick = (e) => {
     // console.log(e)
-    console.log(additional)
+    // console.log(additional)
     if (reveal) {
       next()
       setReveal(false)

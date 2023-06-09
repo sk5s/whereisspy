@@ -118,6 +118,7 @@ export default function MainGame({
     // 決定題目
     let allQuestion = question()
     let chosenQuestion = allQuestion[Math.floor(Math.random()*allQuestion.length)]
+    chosenQuestion = JSON.parse(JSON.stringify(chosenQuestion))
     if (type === "custom" && location.pathname === "/custom"){
       let word1
       let word2
@@ -132,17 +133,17 @@ export default function MainGame({
         word: [word1,word2]
       }
     }
-    console.log("choosenQuestion: ",chosenQuestion)
-    let chosenQuestionCopy = {...chosenQuestion}
+    let chosenQuestionCopy = JSON.parse(JSON.stringify(chosenQuestion))
     shuffleArray(chosenQuestion.word)
+    console.log("choosenQuestion: ",chosenQuestion)
+    console.log("chosenQuestionCopy: ",chosenQuestionCopy)
     changeQuestion("question",chosenQuestion)
     let changedAdditional = ["",""]
     if (chosenQuestionCopy.word[0] === chosenQuestion.word[0] && chosenQuestionCopy.additional !== undefined){
-      changedAdditional[0] = chosenQuestionCopy.additional[0]
-      changedAdditional[1] = chosenQuestionCopy.additional[1]
+      changedAdditional = [...chosenQuestionCopy.additional]
     } else if (chosenQuestionCopy.additional !== undefined) {
-      changedAdditional[1] = chosenQuestionCopy.additional[1]
-      changedAdditional[0] = chosenQuestionCopy.additional[0]
+      console.log([...chosenQuestionCopy.additional].reverse())
+      changedAdditional = [...chosenQuestionCopy.additional].reverse()
     }
     // console.log(changedAdditional)
     let players = []
@@ -164,6 +165,7 @@ export default function MainGame({
     let playersAndAdditional = []
     players.forEach((e,i) => {
       playersAndState.push(0)
+      console.log(changedAdditional[0])
       switch (e) {
         case 1:
           playersAndQuestion.push(chosenQuestion.word[0])
