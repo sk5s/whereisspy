@@ -231,9 +231,6 @@ export default function MainGame({
       setTitle("看題目：玩家"+(view+1))
     }
   },[view])
-  // useEffect(() => {
-  //   startNew()
-  // },[])
   useEffect(() => {
     // console.log(location.pathname)
     if (location.pathname === "/game" || location.pathname === "/custom"){
@@ -286,6 +283,10 @@ export default function MainGame({
               </IonGrid>
               <IonButton expand='full' onClick={() => startNew()}>再玩一次</IonButton>
               <IonButton expand='full' onClick={() => history.push("/home")}>回主頁</IonButton>
+              {type === "custom" && location.pathname === "/custom"
+              ? <IonButton expand="full" onClick={() => open(`https://docs.google.com/forms/d/e/1FAIpQLSckwAgiIewXZ9GZmug3lmeE7v6Kd5i_A24XykB0aFbnW1RsEw/viewform?usp=pp_url&entry.187106879=${settings.question.word[0]}&entry.1493711804=${settings.question.word[1]}`)}>將這個題目加入資料庫</IonButton>
+              : <></>
+              }
             </>
             :<>
               {

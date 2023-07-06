@@ -1,4 +1,4 @@
-import { IonButton, IonButtons, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonList, IonModal, IonPopover, IonRow, IonTitle, IonToolbar, useIonModal } from '@ionic/react';
+import { IonButton, IonButtons, IonChip, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonList, IonModal, IonPopover, IonRow, IonThumbnail, IonTitle, IonToolbar, getPlatforms, useIonModal } from '@ionic/react';
 import GeneralPage from './Layout/GeneralPage';
 import { useContext, useEffect, useState } from 'react';
 import { SettingsContext } from '../SettingsContext';
@@ -10,6 +10,7 @@ function Home() {
   const [maxSpy, setMaxSpy] = useState(1)
   const [maxBlank,setMaxBlank] = useState(0)
   const [howToPlayModal,setHowToPlayModal] = useState(false)
+  const [aboutModal,setAboutModal] = useState(false)
   const history = useHistory()
   const calculateMaxSpy = () => {
     let num = 0
@@ -152,6 +153,104 @@ function Home() {
       </>
     )
   }
+  const About = () => {
+    return (
+      <>
+        <IonButton color="light" expand='full' onClick={() => setAboutModal(true)}>更多</IonButton>
+        <IonModal isOpen={aboutModal} onDidDismiss={() => setAboutModal(false)}>
+          <IonHeader>
+            <IonToolbar>
+              <IonTitle>更多</IonTitle>
+              <IonButtons slot="end">
+                <IonButton onClick={() => setAboutModal(false)}>關閉</IonButton>
+              </IonButtons>
+            </IonToolbar>
+          </IonHeader>
+          <IonContent className="ion-padding">
+            <div style={{ width: "100%", textAlign: "center" }}>
+              <a href="https://games.sk5s.cyou/whereisspy/" target="_blank" rel="noreferrer">
+                <img src="/icons/icon-512.webp" alt="Logo" width="80" height="80" />
+              </a>
+              <p>
+                找出臥底<br/>
+                平台：{" "}
+                {(() => {
+                  let platforms: any = [];
+                  getPlatforms().forEach((p, i) => {
+                    platforms.push(
+                      <IonChip key={i}>
+                        {p}
+                      </IonChip>
+                    );
+                  });
+                  return platforms;
+                })()}
+              </p>
+              <p style={{ marginLeft: "20px" }}>
+              這是個適合多人一起玩的遊戲，臥底會看到和其他人不同的文字，透過大家的說詞來找出誰是臥底吧！只需要一台手機就可以多人一起玩。
+              </p>
+            </div>
+            <div>
+              <a
+                rel="noreferrer"
+                target="_blank"
+                href="https://play.google.com/store/apps/details?id=cyou.sk5s.app.whereisspy"
+              >
+                <img
+                  alt="Get it on Google Play"
+                  src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
+                  width="150px"
+                />
+              </a>
+            </div>
+
+            <IonButton expand='full' color="light" href='https://s.sk5s.cyou/wis' target='_blank' rel='noopener noreferer'>幫忙加大找出臥底題庫</IonButton>
+
+            <h1>更多小遊戲</h1>
+            <a href="https://play.google.com/store/apps/details?id=cyou.sk5s.app.drip" target="blank" rel="noopener noreferer">
+              <div style={{marginBottom:"10px"}}>
+                <IonItem>
+                  <IonThumbnail slot="start">
+                    <img alt="Silhouette of mountains" src="https://games.sk5s.cyou/drip-logo.png" />
+                  </IonThumbnail>
+                  <IonLabel>Drip</IonLabel>
+                </IonItem>
+              </div>
+            </a>
+
+            <h1>更多應用程式</h1>
+            <a href="https://play.google.com/store/apps/details?id=cyou.sk5s.app.weread" target="blank" rel="noopener noreferer">
+              <div style={{marginBottom:"10px"}}>
+                <IonItem>
+                  <IonThumbnail slot="start">
+                    <img alt="Silhouette of mountains" src="https://weread.sk5s.cyou/weread-logo.png" />
+                  </IonThumbnail>
+                  <IonLabel>Weread - 網頁內容閱讀器</IonLabel>
+                </IonItem>
+              </div>
+            </a>
+            <a href="https://play.google.com/store/apps/details?id=cyou.sk5s.app.countdate" target="blank" rel="noopener noreferer">
+              <div style={{marginBottom:"10px"}}>
+                <IonItem>
+                  <IonThumbnail slot="start">
+                    <img alt="Silhouette of mountains" src="https://sk5s.cyou/countdate-landing/assets/img/icon.png" />
+                  </IonThumbnail>
+                  <IonLabel>Countdate - 會考、學測、分科、檢定倒數，日期正數</IonLabel>
+                </IonItem>
+              </div>
+            </a>
+
+            <div style={{ width: "100%", textAlign: "center" }}>
+              <a href="https://games.sk5s.cyou/" target="_blank" rel="noopener noreferrer" style={{textDecoration: "none"}}>
+                <img src="https://games.sk5s.cyou/logo.png" alt="" style={{maxWidth: "80px"}} />
+                <h1 style={{ color: "#000" }}>sk5s Games</h1>
+              </a>
+            </div>
+          </IonContent>
+        </IonModal>
+      </>
+    )
+  }
   useEffect(() => {
     calculateMaxSpy()
     calculateMaxBlank()
@@ -197,7 +296,9 @@ function Home() {
           <IonCol><HowToPlay /></IonCol>
         </IonRow>
         <IonRow>
-          <IonCol><IonButton expand='full' color="light" href='https://s.sk5s.cyou/wis' target='_blank' rel='noopener noreferer'>幫忙加大題庫</IonButton></IonCol>
+          <IonCol>
+            <About />
+          </IonCol>
         </IonRow>
       </IonGrid>
     </GeneralPage>
